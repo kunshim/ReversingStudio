@@ -16,5 +16,5 @@ Reversing tool based on intel pintool. It helps track events that occur when you
 # You may need to set environmental variables. Check out the Visual Studio folder.
 # For x64 applications, use vcvasr64 instead. 
 vcvars32 
-make -j4
+make
 ```
