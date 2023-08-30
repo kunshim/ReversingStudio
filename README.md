@@ -6,15 +6,40 @@ Reversing tool based on intel pintool. It helps track events that occur when you
 * Make for windows
 * cygwin
 * Visual Studio 2022
+* pintool 3.28
+* Intel cpu for best condition
 
 1. Add cygwin64\bin to PATH : `set PATH=%PATH%;\cygwin64\bin`
 2. Download latest pintool and move to `PROJECTS_DIR\Pin`
 3. Type follow command on cmd
 
-```bash
+```powershell
 # Must use cmd. Powershell can't find cl and link. After run cmd, you can use powershell
 # You may need to set environmental variables. Check out the Visual Studio folder.
 # For x64 applications, use vcvasr64 instead. 
-vcvars32 
-make
+vcvars32
+make ARCH=x86 #Use ARCH=x64 for 64bit application
 ```
+## Features
+### WndProc finder
+WndProc finder searches for all `WndProc` that exist in your program. 
+It search for functions whose second argument is called with `WM_COMMAND`
+
+
+```
+                                      Address                         Disassemble                               Target Address     Count
+             6ba5414e (win32dialog.dll!.text)                            call eax                    66a0c0 (******.exe!.text)         2
+             6ba70da2 (win32dialog.dll!.text)             jmp dword ptr [eax+0x8]             6ba563d0 (win32dialog.dll!.text)         2
+           763823b1 (user32.dll!Ordinal_2713)                            call ecx             6ba567b0 (win32dialog.dll!.text)         2
+```
+Like above result, you can see the functions that are assumed to be `WndProc` with some additional information.
+
+### Call tracker
+Tracks all calls and branches that occur within a specific function. 
+You can keep track of the `WndProc` functions you find with the WndProc Finder.
+Call Tracker also anlyze abi of the function and predict argument.
+Call Tracker also creates coverage files that can be used by **IDA Pro LightHouse** plugins. 
+
+### Data-flow analyzer
+**not yet**
+Powerfull tool for data flow analyze and backward analyze. 
