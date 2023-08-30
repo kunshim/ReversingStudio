@@ -11,15 +11,12 @@ void CallTrack::insertChild(Call* call)
     if (!call->isSystemCall)
         hash ^= (call->addr + sequence++);
     currentCall->childs.push_back(call);
-    if(call->parent)
+    if(call->parent && !call->parent->isSystemCall)
     {
-        if (!call->parent->isSystemCall)
-        {
-            if (callCache.find(call->addr) == callCache.end())
-                callCache[call->addr] = call;
-            else
-                callCache[call->addr]->count++;
-        }
+        if (callCache.find(call->addr) == callCache.end())
+            callCache[call->addr] = call;
+        else
+            callCache[call->addr]->count++;
     }
 }
 
@@ -32,7 +29,7 @@ void CallTrack::insertBranch(Call* call)
 
 void CallTrack::analyze()
 {
-    if (callCache.size())
+    if (callCache.empty())
     {
         std::cout << std::setw(45) << "Address" << std::setw(10) << "Count\n";
         for(auto const& elem : callCache)
