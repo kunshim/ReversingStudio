@@ -1,6 +1,6 @@
 CXX := cl
 LD := link
-CXXFLAGS := /Debug /EHs- /EHa- /wd4530 /DTARGET_WINDOWS /MD /O2 /nologo /Gy /Oi- /GR- /GS- /DPIN_CRT=1 /Zc:threadSafeInit- /Zc:sizedDealloc- /wd5208 /FIinclude/msvc_compat.h 
+CXXFLAGS := /utf-8 /EHs- /EHa- /wd4530 /DTARGET_WINDOWS /MD /O2 /nologo /Gy /Oi- /GR- /GS- /DPIN_CRT=1 /Zc:threadSafeInit- /Zc:sizedDealloc- /wd5208 /FIinclude/msvc_compat.h 
 X86FLAGS := /D__i386__ /DTARGET_IA32 /DHOST_IA32
 X86INCLUDES := -I"Pin/source/include/pin" \
 			-I"Pin/source/include/pin/gen" \
