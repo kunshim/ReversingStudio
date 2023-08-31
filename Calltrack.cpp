@@ -29,7 +29,7 @@ void CallTrack::insertBranch(Call* call)
 
 void CallTrack::analyze()
 {
-    if (callCache.empty())
+    if (!callCache.empty())
     {
         std::cout << std::setw(45) << "Address" << std::setw(10) << "Count\n";
         for(auto const& elem : callCache)
@@ -44,7 +44,6 @@ void CallTrack::analyze()
 CallTrack::~CallTrack()
 {
     delete root;
-    callCache.clear();
 }
 
 bool CallTrack::operator==(const CallTrack& other) const 
