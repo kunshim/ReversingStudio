@@ -16,11 +16,13 @@ private:
     static std::tr1::unordered_map<ADDRINT, std::string> nameCache;
     static std::tr1::unordered_map<ADDRINT, Call::ABI> abiCache;
     bool endFlag;
+    bool callFlag;
     void analysisABI();
     static const char* ABISTR[3];
 public:
     void setEnd();
     bool isEnd();
+    bool isCall();
     bool isSystemCall;
     int count = 1; 
     size_t args[3];

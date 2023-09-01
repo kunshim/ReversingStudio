@@ -27,6 +27,13 @@ void CallTrack::insertBranch(Call* call)
     currentCall->branches.push_back(call);
 }
 
+void CallTrack::descript()
+{
+    std::cout << "Tracking analysis of " << std::hex << root->addr << "\n";
+    root->descript();
+    std::cout << "Tracking analysis of " << std::hex << root->addr << " end" << std::endl;
+}
+
 void CallTrack::analyze()
 {
     if (!callCache.empty())

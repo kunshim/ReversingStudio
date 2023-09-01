@@ -28,44 +28,13 @@ Call::Call(ADDRINT addr, ADDRINT sfp): addr(addr), sfp(sfp), endFlag(false), par
         desc = imgName + "!" + funcName;
         nameCache[addr] = desc;
     }
-    analysisABI();
-}
-
-void Call::analysisABI()
-{
 #ifdef TARGET_IA32
     abi = ABI::ABI_STDCALL;
 #elif TARGET_IA32e
     abi = ABI::ABI_FASTCALL;
-    return;
 #endif
-    if (abiCache.find(addr) != abiCache.end())
-    {
-        abi = abiCache[addr];
-        return;
-    }
-    std::stringstream ss;
-    ss << std::hex << addr;
-    RTN rtn = RTN_CreateAt(addr, ss.str());
-    RTN_Open(rtn);
-    for(INS ins = RTN_InsHead(rtn); !INS_IsControlFlow(ins) || !INS_Valid(ins); ins = INS_Next(ins))
-    {
-        std::cout << std::hex << " " << INS_Address(ins) << " " << INS_Disassemble(ins) << std::endl;
-        if (INS_OperandCount(ins) >= 2)
-        { 
-            //ecx 레지스터가 변경되면 thiscall 은 아니다.
-            if (INS_OperandIsReg(ins, 0) && INS_OperandReg(ins, 0) == REG_ECX)
-                break;
-            //ecx 에서 읽어서 다른 레지스터 또는 메모리로 값을 가지고 오는 경우
-            if (INS_IsMov(ins) && INS_OperandIsReg(ins, 1) && INS_OperandReg(ins, 1) == REG_ECX && INS_OperandReadOnly(ins, 1))
-            {
-                abi = ABI::ABI_THISCALL;
-                break;
-            }
-        }
-    }
-    abiCache[addr] = abi;
-    RTN_Close(rtn);
+    if (sfp)
+        analysisABI();
 }
 
 void Call::setEnd()
@@ -78,6 +47,45 @@ bool Call::isEnd()
     return endFlag;
 }
 
+bool Call::isCall()
+{
+    return callFlag;
+}
+
+void Call::analysisABI()
+{
+    if (abiCache.find(addr) != abiCache.end())
+    {
+        abi = abiCache[addr];
+        return;
+    }
+    std::stringstream ss;
+    ss << std::hex << addr;
+    PIN_LockClient();
+    RTN rtn = RTN_CreateAt(addr, ss.str());
+    PIN_UnlockClient();
+    RTN_Open(rtn);
+    for(INS ins = RTN_InsHead(rtn); !INS_Valid(ins) || !INS_IsControlFlow(ins); ins = INS_Next(ins))
+    {        
+        if (INS_OperandCount(ins) >= 2)
+        { 
+            //ecx 레지스터가 변경되면 thiscall 은 아니다.
+            if (INS_OperandIsReg(ins, 0) && INS_OperandReg(ins, 0) == REG_ECX && INS_OperandWritten(ins, 0))
+                break;
+            //ecx 에서 읽어서 다른 레지스터 또는 메모리로 값을 가지고 오는 경우
+            if (INS_IsMov(ins) && INS_OperandIsReg(ins, 1) && INS_OperandReg(ins, 1) == REG_ECX && INS_OperandReadOnly(ins, 1) )
+            {
+                abi = ABI::ABI_THISCALL;
+                break;
+            }
+        }
+    }
+    abiCache[addr] = abi;
+    RTN_Close(rtn);
+}
+
+
+
 void Call::descript()
 {
     for(auto const& branch : branches)
@@ -87,7 +95,7 @@ void Call::descript()
     }
     for(auto const& child : childs)
     {
-        std::cout << "\nCall : " << ABISTR[abi] << " " << std::hex << child->addr << " (" << child->desc << ")\n";
+        std::cout << "\nCall : " << ABISTR[child->abi] << " " << std::hex << child->addr << " (" << child->desc << ")\n";
         if (child->parent)
             std::cout << "Parent : " << std::hex << child->parent->addr << " (" << child->parent->desc << ")\n";
         child->descript();
@@ -96,7 +104,6 @@ void Call::descript()
 
 Call::~Call()
 {
-    ASSERT(addr != NULL, "Dobule-free detected");
     addr = NULL;
     for(auto const& branch : branches)
         delete branch;
