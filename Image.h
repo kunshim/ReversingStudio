@@ -5,6 +5,7 @@
 #include <_unordered_map.h>
 #include <fstream>
 #include <sstream>
+#include <time.h>
 
 class Image
 {
@@ -19,14 +20,32 @@ private:
     std::string makeShortImgName(std::string name);
 public:
     Image(UINT32 id);
-    std::string getShortName();
-    std::string getFullName();
-    bool isSystemImage();
-    ADDRINT getBaseAddress();
-    ADDRINT getEndAddress();
-    static Image getImageByAddress(ADDRINT address);
-    static Image getImageByName(std::string name);
+    const std::string& getShortName() const
+    {
+        return shortName;
+    }
+    const std::string getFullName() const
+    {
+        return fullName;
+    }
+    bool isSystemImage() const
+    {
+        return systemImage;
+    }
+    bool isInvalid() const
+    {
+        return id == -1;
+    }
+    ADDRINT getBaseAddress() const
+    {
+        return baseAddress;
+    }
+    ADDRINT getEndAddress() const
+    {
+        return endAddress;
+    }
+    static Image& getImageByAddress(ADDRINT address);
+    static Image& getImageByName(std::string name);
     static void writeMoudleInfo(std::string path);
+    static Image invalid;
 };
-
-std::string toHexStr(std::string target);
