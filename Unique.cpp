@@ -2,14 +2,17 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <_unordered_map.h>
+#include <unordered_map>
 #include <sstream>
 #include <fstream>
+#include <memory>
 #include "Calltrack.h"
 #include "System.h"
-
+namespace WINDOWS
+{
+#include <Windows.h>
+}
 using namespace std;
-using namespace tr1;
 
 ofstream outputFile; 
 ofstream moduleInfoFile; 
@@ -152,7 +155,7 @@ VOID imgLoad(IMG img, VOID *v)
         if (libname.find(imageName) != string::npos)
         {            
             if (addrString.find("0x") != string::npos)
-                addrString == addrString.substr(2);
+                addrString = addrString.substr(2);
             ADDRINT addr = image.getBaseAddress() + strtoull(addrString.c_str(), NULL, 16);
             PIN_LockClient();
             RTN rtn = RTN_CreateAt(addr, hexstr(addr));          
@@ -160,6 +163,7 @@ VOID imgLoad(IMG img, VOID *v)
             if (!RTN_Valid(rtn))
             {
                 cout << "Invalid RTN at " << hexstr(addr) << endl;
+                outputFile.close();
                 exit(-1);
             }
             RTN_Open(rtn);
@@ -167,6 +171,7 @@ VOID imgLoad(IMG img, VOID *v)
             if (!INS_Valid(head))
             {
                 cout << "Invalid INS at " << hexstr(addr) << endl;
+                outputFile.close();
                 exit(-1);
             }
 #ifdef TARGET_IA32
@@ -196,7 +201,6 @@ VOID insertBBInCalltrack(ADDRINT addr)
     if (PIN_GetTid() != mainTid || currentCallTrack == NULL)
         return;
     currentCallTrack->insertBBL(addr);
-
 }
 
 VOID trace(TRACE trace, VOID* v)
@@ -232,7 +236,7 @@ VOID trace(TRACE trace, VOID* v)
                 {
                     INS_InsertCall(ins, IPOINT_BEFORE, AFUNPTR(trackCall),
                         IARG_INST_PTR,
-                        IARG_ADDRINT, INS_DirectBranchOrCallTargetAddress(ins),
+                        IARG_ADDRINT, INS_DirectControlFlowTargetAddress(ins),
                         IARG_BOOL, false,
                         IARG_FUNCARG_CALLSITE_VALUE, 0,
                         IARG_FUNCARG_CALLSITE_VALUE, 1,
@@ -245,7 +249,7 @@ VOID trace(TRACE trace, VOID* v)
                 {
                     INS_InsertCall(ins, IPOINT_BEFORE, AFUNPTR(trackBranch),
                         IARG_INST_PTR,
-                        IARG_ADDRINT, INS_DirectBranchOrCallTargetAddress(ins), IARG_BRANCH_TAKEN, 
+                        IARG_ADDRINT, INS_DirectControlFlowTargetAddress(ins), IARG_BRANCH_TAKEN,
                         IARG_BOOL, false,
                         IARG_FUNCARG_CALLSITE_VALUE, 0,
                         IARG_FUNCARG_CALLSITE_VALUE, 1,

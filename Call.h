@@ -1,7 +1,7 @@
 #pragma once
 #include "pin.H"
 #include <iostream>
-#include <_unordered_map.h>
+#include <unordered_map>
 #include <sstream>
 #include <list>
 #include "Args.h"
@@ -39,10 +39,7 @@ public:
         return sfp == 0;
     }
     // If call is system call, return true
-    bool isSystemCall() const
-    {
-        return systemCall;
-    }
+    bool isSystemCall() const;
     // If call is indirect call, return true
     bool isIndirectCall() const
     {
@@ -89,9 +86,9 @@ public:
     static void loadExternalInformation(std::string imageName);
     ~Call();
 private:
-    static std::tr1::unordered_map<ADDRINT, std::string> nameCache;
-    static std::tr1::unordered_map<ADDRINT, Call::ABI> abiCache;
-    static std::tr1::unordered_map<ADDRINT, bool> stackCache;    
+    static std::unordered_map<ADDRINT, std::string> nameCache;
+    static std::unordered_map<ADDRINT, Call::ABI> abiCache;
+    static std::unordered_map<ADDRINT, bool> stackCache;    
     std::list<Call*> childs;
     Call* parent;
     std::string desc;

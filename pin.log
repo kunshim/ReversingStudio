@@ -1,0 +1,4 @@
+Pin: pin-3.28-98749-6643ecee5
+Copyright 2002-2023 Intel Corporation.
+E:  [tid:28828] Failure to map DLL E:\MyProject\ReversingStudio\obj-x64\wndproc.dll
+      System error 216 : 

@@ -34,11 +34,11 @@ It search for functions whose second argument is called with `WM_COMMAND`
 ```
 Like above result, you can see the functions that are assumed to be `WndProc` with some additional information.
 
+
 ### Call tracker
 Tracks all calls and branches that occur within a specific function. 
 You can keep track of the `WndProc` functions you find with the WndProc Finder.
 Call Tracker also anlyze abi of the function and predict argument.
-Call Tracker also creates coverage files that can be used by **IDA Pro LightHouse** plugins. 
 ```
 Tracking analysis of 6b1f67b0
 Branch : 6b1f68fc (win32dialog.dll!6b1f6874)
@@ -79,6 +79,15 @@ Tracking analysis of 6b1f67b0 end
                      win32dialog.dll!6b1f44c0         1
 
 ```
+또한 결과물로 IDA Pro의 **Lighthouse** 플러그인에서 사용가능한 코드커버리지 파일을 생성합니다. 
+(호환성 문제로 에러가 발생하나 정상적으로 작동합니다.)
+
+#### Indirect call commenter
+간접 호출의 경우 IDA Pro 를 이용한 정적분석에서 호출되는 함수를 알기 어려운 경우가 많습니다. 
+이를 분석하는데 도움을 주기 위해서 파이썬 스크립트를 제공합니다. 해당 파이썬 스크립트를 통해서 간접호출 파일(ind_~)을 열면 주석을 작성하여 분석에 도움을 줍니다. 
+
+#### Custom argument descriptor (Advanced)
+고오급 기능으로 특정 인자에 대한 분석 결과를 콜트래킹 결과와 함께 출력하기 위해서 커스텀 디스크립터를 `Descriptor.cpp` 파일에 작성하실 수 있습니다. 
 
 ### Data-flow analyzer
 **not yet**

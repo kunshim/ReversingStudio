@@ -1,0 +1,2 @@
+Fail to open args file
+C:\Users\osori\AppData\Local\Temp\\rsinput.txt

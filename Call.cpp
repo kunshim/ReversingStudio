@@ -1,10 +1,10 @@
 #include "Call.h"
 #include "Image.h"
 
-std::tr1::unordered_map<ADDRINT, std::string> Call::nameCache;
-std::tr1::unordered_map<ADDRINT, Call::ABI> Call::abiCache;
-std::tr1::unordered_map<ADDRINT, bool> Call::stackCache;
-const char* Call::ABISTR[6] = { "__thiscall", "__stdcall", "__fastcall", "__cdecl", "__usercall", "errorcall" };
+std::unordered_map<ADDRINT, std::string> Call::nameCache;
+std::unordered_map<ADDRINT, Call::ABI> Call::abiCache;
+std::unordered_map<ADDRINT, bool> Call::stackCache;
+const char* Call::ABISTR[6] = { "__thiscall", "__stdcall", "__fastcall", "__cdecl", "__usercall", "errorcall"};
 Call::Call(ADDRINT addr, ADDRINT sfp, ADDRINT callSite, Call* parent, bool indirect) : addr(addr), sfp(sfp), parent(parent), indirect(indirect), callSite(callSite), endFlag(false), noStackFrame(true)
 {
     Image tmp = Image::getImageByAddress(addr);
@@ -76,20 +76,24 @@ void Call::analysisFunction()
                 else if (INS_IsSub(ins) && INS_OperandReg(ins, 0) == REG_ESP)
                 {
                     noStackFrame = false;
-                    stackCache[addr] = noStackFrame;
+                    stackCache[addr] = false;
                 }
 #else
                 if (INS_IsSub(ins) && INS_OperandReg(ins, 0) == REG_RSP)
                 {
                     noStackFrame = false;
+                    stackCache[addr] = false;
                 }
 #endif
             }
         }
         RTN_Close(rtn);
     }
-    //오류가 발생했을 시에도 분석이 완료된 것으로 가정한다. 
-    abi = ABI::ABI_ERROR;
+    else
+    {
+        //오류가 발생했을 시에도 분석이 완료된 것으로 가정한다. 
+        abi = ABI::ABI_ERROR;
+    }
     abiCache[addr] = abi;
 }
 
@@ -132,7 +136,10 @@ Call::~Call()
     for (auto const& child : childs)
         delete child;
 }
-
+bool Call::isSystemCall() const
+{
+    return systemCall;
+}
 void Call::insertChild(Call* const call)
 {
     childs.push_back(call);
@@ -140,7 +147,7 @@ void Call::insertChild(Call* const call)
 
 bool hasSymbol(std::string name)
 {
-    char* invalid[] = { "loc_", "sub_", "locret_", "SEH_" };
+    const char* invalid[] = { "loc_", "sub_", "locret_", "SEH_" };
     for (auto const& n : invalid)
     {
         if (name.find(n) != std::string::npos)

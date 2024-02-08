@@ -2,10 +2,9 @@
 #include "pin.H"
 #include <iostream>
 #include <string>
-#include <_unordered_map.h>
+#include <unordered_map>
 #include <fstream>
 #include <sstream>
-#include <time.h>
 
 class Image
 {

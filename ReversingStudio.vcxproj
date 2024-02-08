@@ -77,7 +77,7 @@
       <PreprocessorDefinitions>TARGET_WINDOWS;WIN32;_DEBUG;_CONSOLE;TARGET_IA32;__i386__;HOST_IA32;PIN_CRT=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <ForcedIncludeFiles>include/msvc_compat.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um;C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared;Pin/extras/stlport/include/stl;Pin/extras/crt/include;Pin/extras/crt;Pin/extras/crt/include/arch-x86;Pin/extras/crt/include/kernel/uapi/asm-x86;Pin/extras/components/include;Pin/extras/xed-ia32/include/xed;Pin/source/tools/Utils;Pin/source/tools/InstLib;extras/libstdc++/include;Pin/extras/crt/include/kernel/uapi;Pin/extras;Pin/extras/stlport/include;Pin/source/include/pin;Pin/source/include/pin/gen;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um;C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared;Pin/extras/stlport/include/stl;Pin/extras/crt/include;Pin/extras/crt;Pin/extras/crt/include/arch-x86;Pin/extras/crt/include/kernel/uapi/asm-x86;Pin/extras/components/include;Pin/extras/xed-ia32/include/xed;Pin/source/tools/Utils;Pin/source/tools/InstLib;Pin/extras/crt/include/kernel/uapi;Pin/extras;Pin/source/include/pin;Pin/source/include/pin/gen;C:/Users/kunsh/Downloads/boost_1_83_0;Pin/extras/cxx/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>5208</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -133,6 +133,10 @@
     <ClCompile Include="Args.cpp" />
     <ClCompile Include="Call.cpp" />
     <ClCompile Include="Calltrack.cpp" />
+    <ClCompile Include="Descriptor.cpp" />
+    <ClCompile Include="Instruction.cpp" />
+    <ClCompile Include="Taint.cpp" />
+    <ClCompile Include="VirtualEnv.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Unique.cpp" />
     <ClCompile Include="WndProc.cpp" />
@@ -141,7 +145,11 @@
     <ClInclude Include="Args.h" />
     <ClInclude Include="Call.h" />
     <ClInclude Include="Calltrack.h" />
+    <ClInclude Include="Descriptor.h" />
+    <ClInclude Include="Instruction.h" />
+    <ClInclude Include="VirtualEnv.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="System.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />

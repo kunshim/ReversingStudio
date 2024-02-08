@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <_unordered_map.h>
+#include <unordered_map>
 #include <memory>
 #include "Image.h"
 #include "Call.h"
@@ -13,7 +13,7 @@ class CallTrack
 { 
 private:
     void printInnerCallCount() const;
-    std::tr1::unordered_map<ADDRINT, Call*> callCache;
+    std::unordered_map<ADDRINT, Call*> callCache;
     std::list<ADDRINT> bbls; //basic block list for create code coverage
     size_t sequence = 0;
     size_t hash;

@@ -33,6 +33,18 @@
     <ClCompile Include="WndProc.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Descriptor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="VirtualEnv.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Taint.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Instruction.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Call.h">
@@ -45,6 +57,18 @@
       <Filter>소스 파일</Filter>
     </ClInclude>
     <ClInclude Include="Args.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="System.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Descriptor.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="VirtualEnv.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Instruction.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>

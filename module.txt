@@ -1,0 +1,6 @@
+Image::writeMoudleInfo : 0x581f2f50
+                             Module name       Start address         End address
+                          taint_test.exe            0x560000            0x644fff
+                            kernel32.dll          0x75b20000          0x75c0ffff    SYSTEM
+                          KernelBase.dll          0x76040000          0x762b2fff    SYSTEM
+                               ntdll.dll          0x76f80000          0x7712efff    SYSTEM
