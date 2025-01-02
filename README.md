@@ -57,24 +57,24 @@ Branch : 6b1f4508 (win32dialog.dll!6b1f44c0)
 Branch : 6b1f454f (win32dialog.dll!6b1f4508)
 Branch : 6b1f487d (win32dialog.dll!6b1f454f)
 
-Call : __stdcall a19cf0 (nine_kokoiro.exe!a19cf0)
+Call : __stdcall a19cf0 (********.exe!a19cf0)
 Parent : 6b1f44c0 (win32dialog.dll!6b1f44c0)
 ...
 
-Call : __thiscall ad4dd0 (nine_kokoiro.exe!ad4dd0)
-Parent : a1a250 (nine_kokoiro.exe!a19cf0)
-Branch : ad4e43 (nine_kokoiro.exe!ad4dd0)
+Call : __thiscall ad4dd0 (********.exe!ad4dd0)
+Parent : a1a250 (********.exe!a19cf0)
+Branch : ad4e43 (********.exe!ad4dd0)
 Tracking analysis of 6b1f67b0 end
                                       Address    Count
-                      nine_kokoiro.exe!ac3242         1
-                      nine_kokoiro.exe!ac3050         1
+                      ********.exe!ac3242         1
+                      ********.exe!ac3050         1
                     user32.dll!GetWindowLongW         1
-                      nine_kokoiro.exe!ac1c90         1
-                      nine_kokoiro.exe!ac4110         1
+                      ********.exe!ac1c90         1
+                      ********.exe!ac4110         1
                       user32.dll!GetDlgCtrlID         1
-                      nine_kokoiro.exe!a19cf0         1
-                      nine_kokoiro.exe!a19cf0         1
-                      nine_kokoiro.exe!ad4dd0         1
+                      ********.exe!a19cf0         1
+                      ********.exe!a19cf0         1
+                      ********.exe!ad4dd0         1
                      win32dialog.dll!6b1f3f70         1
                      win32dialog.dll!6b1f44c0         1
 
